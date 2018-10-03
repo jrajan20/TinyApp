@@ -12,7 +12,12 @@
 	 
 	<% for (var obj in urls) { %>
 		<form method="POST" action="/urls/<%=obj%>/delete">
-    	<li><%= obj %> : <%= urls[obj]%> <a href = "/urls/<%=obj%>">EDIT</a> <button>DELETE</button></li>
+
+    	<p style = >
+    		<%= obj %> : <%= urls[obj]%> <a href = "/urls/<%=obj%>"> EDIT  </a> 
+    		<button>DELETE</button>
+    		<br></br>
+    	</p>
     	</form>
 
     <% }%>
