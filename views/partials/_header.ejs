@@ -3,18 +3,22 @@
 <div><h1> TINY URL </h1></div>
 
 <% if((username) && username !== null) {%>
-<p><%=username%></p>
-</br>
-<form method="POST" action="/logout">
-<button>Logout</button>
-<br></br>
-</form>  
+
+	<p><%=username%></p>
+	</br>
+	<form method="POST" action="/logout">
+	<button>Logout</button>
+	<br></br>
+	</form>  
+
 <%} else {%>
-<form method="POST" action="/login">
-<input name="username" type="text">
-<button>Sign In</button>
-<br></br>
-</form>  
+
+	<form method="POST" action="/login">
+	<input name="username" type="text">
+	<button>Sign In</button>
+	<br></br>
+	</form>  
+
 <%}%>
 
 
