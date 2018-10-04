@@ -1,25 +1,12 @@
 <!-- views/partials/header.ejs -->
 
-<div><h1> TINY URL </h1></div>
+<div><h1> WELCOME TO TINY URL </h1></div>
 
-<% if((username) && username !== null) {%>
 
-	<p><%=username%></p>
-	</br>
-	<form method="POST" action="/logout">
-	<button>Logout</button>
-	<br></br>
-	</form>  
 
-<%} else {%>
-
-	<form method="POST" action="/login">
-	<input name="username" type="text">
-	<button>Sign In</button>
-	<br></br>
-	</form>  
-
-<%}%>
+<h2> Register <a href="/register">Here</a></h2>
+<br>
+<h2>Login: </h2> <a href="/login"><button>Login</button></a>
 
 
 

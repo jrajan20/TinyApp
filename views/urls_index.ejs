@@ -9,20 +9,35 @@
     <header>
     <% include ./partials/_header %>
 	</header>
+	
 	 
+	
+	<% if ((user) && user !== null) {%>
 	<% for (var obj in urls) { %>
 		<form method="POST" action="/urls/<%=obj%>/delete">
 
-    	<p style = >
+    	<p>
     		<%= obj %> : <%= urls[obj]%> <a href = "/urls/<%=obj%>"> EDIT  </a> 
     		<button>DELETE</button>
     		<br></br>
     	</p>
     	</form>
+    	
+	</form> 
 
     <% }%>
-	</form>
-	
+    <a href="/urls/new"><button>Add a URL:</button></a>
+	<form method="POST" action="/logout">
+	<br></br>
+	<button>Logout</button>
+	<br></br>
+	</form> 
+
+
+	<% } else {%>
+	<h3>PLEASE <a href="/login">LOGIN</a> FIRST</h3>
+	<% }%>
+
    
 </body>
 </html>

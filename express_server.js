@@ -10,6 +10,20 @@ var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
 function generateRandomString() {
 	let randNum = Math.random().toString(36).substring(7);
 	return randNum;
@@ -19,17 +33,86 @@ function generateRandomString() {
 
 
 app.set('view engine','ejs');
+app.get('/',(req, res) =>{
+  res.render('homepage')
+})
+
+app.get('/register',(req, res) => {
+  let templateVars = { urls: urlDatabase,
+   user: users[req.cookies['user_id']]
+ }
+
+  res.render('urls_register', templateVars);
+});
+
+app.post("/register", (req, res) =>{
+  var userID = generateRandomString();
+  if((req.body.email) &&(req.body.password) && req.body.email !== null && req.body.password !== null )
+  {
+    for (let uID in users)
+    {
+      if (req.body.email === users[uID].email)
+      {
+        throw  "Error 400";
+      }
+      else
+      {
+        users[userID] = {
+      id : userID,
+      email : req.body.email,
+      password : req.body.password,
+      };
+
+      
+      res.cookie('user_id', userID);
+      res.redirect('/login');
+      }
+    } 
+} 
+else {
+  throw "Error 400";
+}
+
+});
+app.get('/login',(req, res) =>{
+  let templateVars ={
+    user : users[req.cookies['user_id']]
+
+  }
+  res.render('urls_login',templateVars)
+});
 
 app.post("/login", (req, res) =>{
-  res.cookie('username',req.body.username);
-  res.redirect('/urls');
+   var errorCheck = false;
+  for (let uID in users ){
+    
+    
+
+    if (req.body.email === users[uID].email)
+    {
+      
+      if (req.body.password === users[uID].password){
+        res.cookie('user_id', users[uID].id);
+        res.redirect('/urls');
+      } else {
+          throw 'ERROR 403';
+      } 
+    } 
+    else {
+      errorCheck = true;
+    }
+    
+  }
+   if (errorCheck === true)
+     {
+        throw 'ERROR 403';
+      }
 });
 
 app.post("/logout", (req, res) =>{
-  res.clearCookie('username');
-  res.redirect('/urls');
+  res.clearCookie('user_id');
+  res.redirect('/');
 });
-
 
 
 
@@ -38,14 +121,18 @@ app.post("/logout", (req, res) =>{
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase,
-   username: req.cookies["username"]};
+   //username: req.cookies["username"]};
+   user : users[req.cookies['user_id']]
+  }
+
   res.render("urls_index", templateVars);
 });
 
+
 app.get("/urls/new", (req, res) => {
   let templateVars = {
-  username: req.cookies["username"],
- 
+  //username: req.cookies["username"],
+    user : users[req.cookies['user_id']]
   };
   res.render("urls_new",templateVars);
 });
@@ -64,7 +151,7 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:id", (req, res) => {
 	let templateVars = { urls: urlDatabase,
 		shortURL: req.params.id,
-    username: req.cookies["username"],
+      user : users[req.cookies['user_id']]
 	 };
   res.render("urls_show",templateVars);
 });
