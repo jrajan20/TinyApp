@@ -9,10 +9,10 @@
 	</header>
     <!-- Add your EJS code here -->
     
-    
+   
     <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
 
-      <li> SHORT URL : <%= shortURL %></li>
+      <li> SHORT URL : <a href=" /u/<%=shortURL%>"><%= shortURL %> </a></li>
 
       <input type="text" name = "updatedURL" style="width: 300px">
       <button>UPDATE </button>

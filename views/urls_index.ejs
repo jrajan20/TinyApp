@@ -13,18 +13,21 @@
 	 
 	
 	<% if ((user) && user !== null) {%>
-	<% for (var obj in urls) { %>
-		<form method="POST" action="/urls/<%=obj%>/delete">
+	<% if (urls.user) {%>
+		<form method="POST" action="/urls/<%=shortURL%>/delete">
 
     	<p>
-    		<%= obj %> : user - <%= urls[obj]['user']%> URL - <%= urls[obj]['longURL']%> <a href = "/urls/<%=obj%>"> EDIT  </a> 
+
+    		 user -> <%= urls.user%> URL -> <%= urls.longURL%>  SHORT URL -> <%=shortURL%>
+    		 <a href = "/urls/<%=shortURL%>"> EDIT  </a> 	
     		<button>DELETE</button>
     		<br></br>
     	</p>
     	</form>
     	
 	</form> 
-    <% }%>
+	<% }%>
+    
     
      <a href="/urls/new"><button>Add a URL:</button></a>
    
