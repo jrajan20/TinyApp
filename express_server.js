@@ -7,8 +7,12 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 var urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    longURL: 'http://www.lighthouselabs.com',
+    user : 'sdgsf56'},
+  "9sm5xK": {
+    longURL: 'http://www.google.com',
+    user : 'jvjdshf'} 
 };
 
 const users = { 
@@ -28,6 +32,12 @@ function generateRandomString() {
 	let randNum = Math.random().toString(36).substring(7);
 	return randNum;
 }
+function urlsForUser(id){
+  var secureDatabase = {}
+  for
+
+  
+ }
 
 
 
@@ -120,9 +130,11 @@ app.post("/logout", (req, res) =>{
 
 
 app.get("/urls", (req, res) => {
+
   let templateVars = { urls: urlDatabase,
    //username: req.cookies["username"]};
-   user : users[req.cookies['user_id']]
+   user : users[req.cookies['user_id']],
+  
   }
 
   res.render("urls_index", templateVars);
@@ -130,18 +142,30 @@ app.get("/urls", (req, res) => {
 
 
 app.get("/urls/new", (req, res) => {
+ 
   let templateVars = {
   //username: req.cookies["username"],
     user : users[req.cookies['user_id']]
+
   };
   res.render("urls_new",templateVars);
 });
 
-app.post("/urls", (req, res) => {
+/*app.post('/urls/new',(req, res) => {
+  let userID = users[req.cookies['user_id']].id
+  urlDatabase[shortURL] = longURL
+  res.redirect("/urls");
+});*/
+
+app.post("/urls/new", (req, res) => {
   console.log(req.body);
   let longURL = req.body.longURL 
+  let userID = users[req.cookies['user_id']].id
   let shortURL = generateRandomString()
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL] = {
+    longURL: longURL,
+    user : userID}
+    console.log(urlDatabase)
   		  // debug statement to see POST parameters
   res.redirect(`/urls/${shortURL}`);         // Respond with 'Ok' (we will replace this)
 });
@@ -157,13 +181,19 @@ app.get("/urls/:id", (req, res) => {
 });
 
   app.post("/urls/:id/delete",(req, res) => {
+  if (urlDatabase[req.params.id]['user'] === req.cookies['user_id']){
   delete urlDatabase[req.params.id];
   res.redirect('/urls');
-})
+}
+});
 
  app.post("/urls/:id",(req, res) => {
-  urlDatabase[req.params.id] = req.body.updatedURL;
+   if (urlDatabase[req.params.id]['user'] === req.cookies['user_id']){
+  urlDatabase[req.params.id]['longURL'] = req.body.updatedURL;
   res.redirect('/urls');
+} else {
+  throw 'Not a valid username'
+}
 })
 
 

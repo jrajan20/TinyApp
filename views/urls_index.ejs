@@ -17,16 +17,17 @@
 		<form method="POST" action="/urls/<%=obj%>/delete">
 
     	<p>
-    		<%= obj %> : <%= urls[obj]%> <a href = "/urls/<%=obj%>"> EDIT  </a> 
+    		<%= obj %> : user - <%= urls[obj]['user']%> URL - <%= urls[obj]['longURL']%> <a href = "/urls/<%=obj%>"> EDIT  </a> 
     		<button>DELETE</button>
     		<br></br>
     	</p>
     	</form>
     	
 	</form> 
-
     <% }%>
-    <a href="/urls/new"><button>Add a URL:</button></a>
+    
+     <a href="/urls/new"><button>Add a URL:</button></a>
+   
 	<form method="POST" action="/logout">
 	<br></br>
 	<button>Logout</button>
