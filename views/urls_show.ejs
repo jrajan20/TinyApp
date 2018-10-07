@@ -4,22 +4,33 @@
   <title>TinyApp</title>
 </head>
 <body>
-	<header>
-    <% include ./partials/_header %>
-	</header>
+	
     <!-- Add your EJS code here -->
+    <% if ((user) && user !== null && urlData[shortURL].user === user.id) {%>
+
+    <header><%= user.email %></header>
     
-   
+     <form method="POST" action="/logout">
+      <br></br>
+      <button>Logout</button>
+      <br></br>
+      </form>
+
+    <h2>EDIT YOUR URL:</h2>
+    <a href="/urls">Profile Homepage</a>
     <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
-
-      <li> SHORT URL : <a href=" /u/<%=shortURL%>"><%= shortURL %> </a></li>
-
+      <li> SHORT URL : <a href=" /u/<%=shortURL%>"><%= shortURL %></a>   ||   URL: <a href=" /u/<%=shortURL%>"><%=urls[shortURL].longURL%></a></li>
+      <br></br>
       <input type="text" name = "updatedURL" style="width: 300px">
       <button>UPDATE </button>
-      
-
     </form>
-    
+
+    <% } else {%>
+    <header>
+      <% include ./partials/_header %>
+    </header>
+    <h3 style ="color:red" >NOT A VALID USER EMAIL.  PLEASE LOGIN FIRST</h3>
+    <% } %>
     
     
 </body>

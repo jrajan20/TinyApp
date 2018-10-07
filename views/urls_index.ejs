@@ -6,40 +6,48 @@
 <body>
 
     <!-- Add your EJS code here -->
-    <header>
-    <% include ./partials/_header %>
-	</header>
-	
+   
+
 	 
 	
 	<% if ((user) && user !== null) {%>
-	<% if (urls.user) {%>
-		<form method="POST" action="/urls/<%=shortURL%>/delete">
+	<header><%= user.email %></header>
+	 <form method="POST" action="/logout">
+      <br></br>
+      <button>Logout</button>
+      <br></br>
+    </form>
 
+	<br>
+	<h2>Your URLs:</h2>
+	<br>
+	<% for (var keys in urls ) {%>
+	<% if (user.email) {%>
+
+		<form method="POST" action="/urls/<%=keys%>/delete">
     	<p>
-
-    		 user -> <%= urls.user%> URL -> <%= urls.longURL%>  SHORT URL -> <%=shortURL%>
-    		 <a href = "/urls/<%=shortURL%>"> EDIT  </a> 	
-    		<button>DELETE</button>
+    		  SHORT URL : <a href="/u/<%=keys%>"><%=keys%> </a> ||||  URL : <a href="<%=urls[keys].longURL%>"><%= urls[keys].longURL%></a>
+    		 <a href = "/urls/<%=keys%>"> EDIT  </a> 	
+			<button>DELETE</button>
     		<br></br>
     	</p>
-    	</form>
-    	
+    	</form>	
 	</form> 
 	<% }%>
+	<% }%>
+	
     
     
      <a href="/urls/new"><button>Add a URL:</button></a>
    
-	<form method="POST" action="/logout">
-	<br></br>
-	<button>Logout</button>
-	<br></br>
-	</form> 
+	
 
 
 	<% } else {%>
-	<h3>PLEASE <a href="/login">LOGIN</a> FIRST</h3>
+	 <header>
+    <% include ./partials/_header %>
+	</header>
+	<h3 style ="color:red">PLEASE <a href="/login">LOGIN</a> FIRST</h3>
 	<% }%>
 
    

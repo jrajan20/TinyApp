@@ -5,22 +5,35 @@
   <head></head>
 
   <body style="font-size:20px; padding:50px;">
-    <header>
-    <% include ./partials/_header %>
-  </header>
+    
   <% if ((user)&& user !== null) {%>
+    <header><%= user.email %></header>
+     <form method="POST" action="/logout">
+      <br></br>
+      <button>Logout</button>
+      <br></br>
+    </form>
+    
+    <h3>ADD A NEW URL:</h3>
     <form action="/urls/new" method="POST" style="margin:150px;">
 
       <label for="longURL">Enter a URL:</label>
 
       <input id="longURL" type="text" name="longURL"
-       URL="http://" style="width: 300px">
+       placeholder="http://" style="width: 300px">
 
       <input type="submit" value="Submit">
 
     </form>
+      
+
     <%} else {%>
-      <h3>PLEASE <a href="/login">LOGIN</a> FIRST</h3>
+      
+      <header>
+      <% include ./partials/_header %>
+      </header>
+      <h4 style="color: red">PLEASE <a href="/login">LOGIN</a> FIRST</h4>
+
   <% }%>
 
   </body>
