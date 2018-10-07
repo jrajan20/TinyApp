@@ -93,21 +93,24 @@ app.get('/login',(req, res) =>{
 });
 
 app.post("/login", (req, res) =>{
-   var errorCheck = false;
+
+  var errorCheck = false;
   for (let uID in users ){
     const password = users[uID].password
     if (req.body.email === users[uID].email){
-     
+
       if (bcrypt.compareSync(req.body.password,password)){
         req.session.user_id = users[uID].id;
         res.redirect('/urls');
       } else {
         throw 'ERROR 403';
       }
+
     } else {
-      errorCheck = true
+      errorCheck = true;
     }
   }
+
   if (errorCheck === true){
     throw "Error 403";
   }
@@ -130,7 +133,7 @@ function urlsForUser(id){
     }
   } 
   return secureDatabase;
- }
+}
   
 
 
@@ -140,7 +143,6 @@ app.get("/urls", (req, res) => {
    user : users[req.session.user_id],
    shortURL: generateRandomString()
    }
-   console.log(urlsForUser(req.session.user_id));
   res.render("urls_index", templateVars);
 });
 
@@ -158,7 +160,6 @@ app.get("/urls/new", (req, res) => {
 
 app.post("/urls/new", (req, res) => {
   
-  console.log(req.body);
   let longURL = `http://${req.body.longURL}`; 
   let userID = users[req.session.user_id].id;
   let shortURL = generateRandomString();
